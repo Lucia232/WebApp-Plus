@@ -1,3 +1,4 @@
+import { service } from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -17,19 +18,20 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
-import {Empleado} from '../models';
-import {EmpleadoRepository} from '../repositories';
+import { Empleado } from '../models';
+import { EmpleadoRepository } from '../repositories';
+import { NotificacionService } from '../services';
 
 export class EmpleadoController {
   constructor(
     @repository(EmpleadoRepository)
-    public empleadoRepository : EmpleadoRepository,
-  ) {}
+    public empleadoRepository: EmpleadoRepository
+  ) { }
 
   @post('/empleados')
   @response(200, {
     description: 'Empleado model instance',
-    content: {'application/json': {schema: getModelSchemaRef(Empleado)}},
+    content: { 'application/json': { schema: getModelSchemaRef(Empleado) } },
   })
   async create(
     @requestBody({
@@ -50,7 +52,7 @@ export class EmpleadoController {
   @get('/empleados/count')
   @response(200, {
     description: 'Empleado model count',
-    content: {'application/json': {schema: CountSchema}},
+    content: { 'application/json': { schema: CountSchema } },
   })
   async count(
     @param.where(Empleado) where?: Where<Empleado>,
@@ -65,7 +67,7 @@ export class EmpleadoController {
       'application/json': {
         schema: {
           type: 'array',
-          items: getModelSchemaRef(Empleado, {includeRelations: true}),
+          items: getModelSchemaRef(Empleado, { includeRelations: true }),
         },
       },
     },
@@ -79,13 +81,13 @@ export class EmpleadoController {
   @patch('/empleados')
   @response(200, {
     description: 'Empleado PATCH success count',
-    content: {'application/json': {schema: CountSchema}},
+    content: { 'application/json': { schema: CountSchema } },
   })
   async updateAll(
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Empleado, {partial: true}),
+          schema: getModelSchemaRef(Empleado, { partial: true }),
         },
       },
     })
@@ -100,13 +102,13 @@ export class EmpleadoController {
     description: 'Empleado model instance',
     content: {
       'application/json': {
-        schema: getModelSchemaRef(Empleado, {includeRelations: true}),
+        schema: getModelSchemaRef(Empleado, { includeRelations: true }),
       },
     },
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Empleado, {exclude: 'where'}) filter?: FilterExcludingWhere<Empleado>
+    @param.filter(Empleado, { exclude: 'where' }) filter?: FilterExcludingWhere<Empleado>
   ): Promise<Empleado> {
     return this.empleadoRepository.findById(id, filter);
   }
@@ -120,7 +122,7 @@ export class EmpleadoController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Empleado, {partial: true}),
+          schema: getModelSchemaRef(Empleado, { partial: true }),
         },
       },
     })
