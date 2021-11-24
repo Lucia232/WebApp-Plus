@@ -3,3 +3,4 @@ export * from './empleado.model';
 export * from './proveedor.model';
 export * from './proveedor-empresa.model';
 export * from './mensajes-empleados.model';
+export * from './credenciales.model';

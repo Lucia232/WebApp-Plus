@@ -43,7 +43,7 @@ export class NotificacionService {
       to: correo_destino, // list of receivers
       subject: "Registro y Bienvenida", // Subject line
       //text: `Hola ${empleado.nombres}, bienvenido a la empresa`, // plain text body
-      html: `Hola ${empleado.nombres}, bienvenido a WebApp+Plus, una aplicación para gestionar su información, su usuario es: ${empleado.email} y su contraseña: ${clave}`,
+      html: `Hola <strong> ${empleado.nombres}, </strong><br><br>Bienvenido a WebApp+Plus, una aplicación para gestionar su información, sus datos de acceso son: <br><br> <ul><li>Usuario: ${empleado.email}</li><li>Contraseña: ${clave}</li></ul><br />Gracias por su registro, Feliz día`
     });
   }
 

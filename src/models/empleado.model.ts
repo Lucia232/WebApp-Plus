@@ -43,9 +43,8 @@ export class Empleado extends Entity {
 
   @property({
     type: 'string',
-    required: false,
   })
-  clave: string;
+  clave?: string;
 
   @property({
     type: 'string',

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import { service } from '@loopback/core';
 import {
   Count,
@@ -22,6 +23,7 @@ import {Empleado, MensajesEmpleados} from '../models';
 import {EmpleadoRepository, MensajesEmpleadosRepository} from '../repositories';
 import { NotificacionService } from '../services';
 
+@authenticate("admin")
 export class MensajesEmpleadosController {
   constructor(
     @repository(MensajesEmpleadosRepository)
@@ -31,6 +33,7 @@ export class MensajesEmpleadosController {
     @service(NotificacionService)
     public notificacionSms : NotificacionService
   ) {}
+
 
   @post('/mensajes-empleados')
   @response(200, {
@@ -50,14 +53,15 @@ export class MensajesEmpleadosController {
     })
     mensajesEmpleados: Omit<MensajesEmpleados, 'id'>,
   ): Promise<MensajesEmpleados> {
-    let emp = this.empleado.findById(mensajesEmpleados.empleadoId);
+    let emp = await this.empleado.findById(mensajesEmpleados.empleadoId);
 
     let contenido = mensajesEmpleados.contenido;
-    
-    this.notificacionSms.Enviosms((await emp).telefono, contenido);
+
+    this.notificacionSms.Enviosms(emp.telefono, contenido);
     return this.mensajesEmpleadosRepository.create(mensajesEmpleados);
   }
 
+  @authenticate.skip()
   @get('/mensajes-empleados/count')
   @response(200, {
     description: 'MensajesEmpleados model count',

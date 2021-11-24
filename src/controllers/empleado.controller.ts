@@ -12,7 +12,7 @@ import {
   getModelSchemaRef, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
-import {Empleado} from '../models';
+import {Credenciales, Empleado} from '../models';
 import {EmpleadoRepository} from '../repositories';
 import {AutenticacionService, NotificacionService} from '../services';
 
@@ -26,6 +26,25 @@ export class EmpleadoController {
     public autenticacion: AutenticacionService
   ) { }
 
+  @post('/identificarEmpleados' ,{
+    responses : {
+      '200': {
+        description : 'Identificación de empleados'
+      }
+    }
+  })
+  async identificar(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Credenciales),
+        },
+      },
+    }) credenciales : Credenciales
+  ): Promise<object>{
+    return this.autenticacion.IdentificarEmpleado(credenciales.usuario, credenciales.clave);
+  }
+
   @post('/empleados')
   @response(200, {
     description: 'Empleado model instance',
@@ -37,7 +56,7 @@ export class EmpleadoController {
         'application/json': {
           schema: getModelSchemaRef(Empleado, {
             title: 'NewEmpleado',
-            exclude: ['id'],
+            exclude: ['id', 'clave'],
           }),
         },
       },
