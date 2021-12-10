@@ -54,9 +54,9 @@ export class Empleado extends Entity {
 
   @property({
     type: 'date',
-    required: true,
+    required: false,
   })
-  fechaNacimiento: string;
+  fechaNacimiento?: string;
 
   @property({
     type: 'number',
@@ -66,15 +66,15 @@ export class Empleado extends Entity {
 
   @property({
     type: 'boolean',
-    required: true,
+    required: false,
   })
-  esDirectivo: boolean;
+  esDirectivo?: boolean;
 
   @property({
     type: 'boolean',
-    required: true,
+    required: false,
   })
-  esCliente: boolean;
+  esCliente?: boolean;
 
   @belongsTo(() => Empresa)
   empresaId: string;

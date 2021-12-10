@@ -1,3 +1,5 @@
+
+import {authenticate} from '@loopback/authentication';
 import {service} from '@loopback/core';
 import {
   Count,
@@ -16,6 +18,7 @@ import {Credenciales, Empleado} from '../models';
 import {EmpleadoRepository} from '../repositories';
 import {AutenticacionService, NotificacionService} from '../services';
 
+@authenticate("admin")
 export class EmpleadoController {
   constructor(
     @repository(EmpleadoRepository)
@@ -26,6 +29,7 @@ export class EmpleadoController {
     public autenticacion: AutenticacionService
   ) { }
 
+  @authenticate.skip()
   @post('/identificarEmpleados' ,{
     responses : {
       '200': {
@@ -73,6 +77,7 @@ export class EmpleadoController {
     return p;
   }
 
+  @authenticate.skip()
   @get('/empleados/count')
   @response(200, {
     description: 'Empleado model count',
@@ -83,7 +88,7 @@ export class EmpleadoController {
   ): Promise<Count> {
     return this.empleadoRepository.count(where);
   }
-
+  @authenticate.skip()
   @get('/empleados')
   @response(200, {
     description: 'Array of Empleado model instances',
@@ -121,6 +126,7 @@ export class EmpleadoController {
     return this.empleadoRepository.updateAll(empleado, where);
   }
 
+  @authenticate.skip()
   @get('/empleados/{id}')
   @response(200, {
     description: 'Empleado model instance',
@@ -154,6 +160,7 @@ export class EmpleadoController {
   ): Promise<void> {
     await this.empleadoRepository.updateById(id, empleado);
   }
+
 
   @put('/empleados/{id}')
   @response(204, {
